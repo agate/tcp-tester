@@ -1,13 +1,18 @@
 require "socket"
 require "benchmark"
 
+HOST="marathon-services.la.prod.factual.com"
+PORT=10089
+
 class Client
-  def initialize(idx)
+  def initialize(idx, host=HOST, port=PORT)
     @idx = idx
+    @host = host
+    @port = port
   end
 
 	def server
-    @server ||= TCPSocket.open( "localhost", 3000 )
+    @server ||= TCPSocket.open(@host, @port)
   end
 
   def send
@@ -15,7 +20,7 @@ class Client
   end
 
   def get
-    server.gets.chomp.to_sym
+    server.gets
   end
 
   def close
@@ -26,14 +31,15 @@ end
 idx = 0
 
 loop do
-  c = Client.new(idx)
-  puts idx
+  c = Client.new(idx, 'localhost', 3000)
+  # c = Client.new(idx)
+  puts "=========== #{idx} ==========="
   time = Benchmark.measure do
     c.send
   end
   puts "req: #{time.inspect}"
   time = Benchmark.measure do
-    c.get
+    puts c.get
   end
   puts "res: #{time.inspect}"
   c.close
