@@ -1,8 +1,8 @@
 require "socket"
 
 class Server
-  def initialize( port, ip )
-    @server = TCPServer.open( ip, port )
+  def initialize(host, port)
+    @server = TCPServer.open(host, port)
     run
   end
 
@@ -18,4 +18,7 @@ class Server
   end
 end
 
-Server.new( 3000, "localhost" )
+host="localhost"
+port=3000
+puts "Running TCPServer on #{host}:#{port}"
+Server.new(host, port)

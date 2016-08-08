@@ -31,8 +31,8 @@ end
 idx = 0
 
 loop do
-  c = Client.new(idx, 'localhost', 3000)
-  # c = Client.new(idx)
+  # c = Client.new(idx, 'localhost', 3000)
+  c = Client.new(idx)
   puts "=========== #{idx} ==========="
   time = Benchmark.measure do
     c.send
